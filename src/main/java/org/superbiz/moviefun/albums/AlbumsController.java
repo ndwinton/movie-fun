@@ -85,7 +85,7 @@ public class AlbumsController {
     }
 
     private byte[] readDefaultImageBytes() throws IOException {
-        return readAllBytesFromStream(getSystemResourceAsStream("default-cover.jpg"));
+        return readAllBytesFromStream(this.getClass().getClassLoader().getResourceAsStream("default-cover.jpg"));
     }
 
 
