@@ -1,6 +1,5 @@
 package org.superbiz.moviefun.albums;
 
-import org.apache.tika.Tika;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -10,18 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.superbiz.moviefun.blobstore.Blob;
 import org.superbiz.moviefun.blobstore.BlobStore;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 
-import static java.lang.ClassLoader.getSystemResource;
-import static java.lang.ClassLoader.getSystemResourceAsStream;
 import static java.lang.String.format;
-import static java.nio.file.Files.readAllBytes;
 
 @Controller
 @RequestMapping("/albums")
@@ -56,7 +50,7 @@ public class AlbumsController {
     }
 
     @GetMapping("/{albumId}/cover")
-    public HttpEntity<byte[]> getCover(@PathVariable long albumId) throws IOException, URISyntaxException {
+    public HttpEntity<byte[]> getCover(@PathVariable long albumId) throws IOException {
         Optional<Blob> coverBlob = blobStore.get(makeBlobName(albumId));
         byte[] imageBytes;
         String contentType;
