@@ -25,6 +25,9 @@ import javax.sql.DataSource;
 })
 public class Application {
 
+    public static final String ALBUMS_QUALIFIER = "albums";
+    public static final String MOVIES_QUALIFIER = "movies";
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -40,13 +43,13 @@ public class Application {
     }
 
     @Bean
-    @Qualifier("albums")
+    @Qualifier(ALBUMS_QUALIFIER)
     public DataSource albumsDataSource(DatabaseServiceCredentials serviceCredentials) {
         return createdWrappedMysqlDataSource("albums-mysql", serviceCredentials);
     }
 
     @Bean
-    @Qualifier("movies")
+    @Qualifier(MOVIES_QUALIFIER)
     public DataSource moviesDataSource(DatabaseServiceCredentials serviceCredentials) {
         return createdWrappedMysqlDataSource("movies-mysql", serviceCredentials);
     }
@@ -69,14 +72,14 @@ public class Application {
     }
 
     @Bean
-    @Qualifier("movies")
-    LocalContainerEntityManagerFactoryBean moviesEntityManagerFactory(@Qualifier("movies") DataSource dataSource, HibernateJpaVendorAdapter adapter) {
+    @Qualifier(MOVIES_QUALIFIER)
+    LocalContainerEntityManagerFactoryBean moviesEntityManagerFactory(@Qualifier(MOVIES_QUALIFIER) DataSource dataSource, HibernateJpaVendorAdapter adapter) {
         return createFactoryBean(dataSource, adapter, "movies");
     }
 
     @Bean
-    @Qualifier("albums")
-    LocalContainerEntityManagerFactoryBean albumsEntityManagerFactory(@Qualifier("albums") DataSource dataSource, HibernateJpaVendorAdapter adapter) {
+    @Qualifier(ALBUMS_QUALIFIER)
+    LocalContainerEntityManagerFactoryBean albumsEntityManagerFactory(@Qualifier(ALBUMS_QUALIFIER) DataSource dataSource, HibernateJpaVendorAdapter adapter) {
         return createFactoryBean(dataSource, adapter, "albums");
     }
 
@@ -90,14 +93,14 @@ public class Application {
     }
 
     @Bean
-    @Qualifier("movies")
-    PlatformTransactionManager moviesPlatformTransactionManager(@Qualifier("movies") EntityManagerFactory factory) {
+    @Qualifier(MOVIES_QUALIFIER)
+    PlatformTransactionManager moviesPlatformTransactionManager(@Qualifier(MOVIES_QUALIFIER) EntityManagerFactory factory) {
         return new JpaTransactionManager(factory);
     }
 
     @Bean
-    @Qualifier("albums")
-    PlatformTransactionManager albumsPlatformTransactionManager(@Qualifier("albums") EntityManagerFactory factory) {
+    @Qualifier(ALBUMS_QUALIFIER)
+    PlatformTransactionManager albumsPlatformTransactionManager(@Qualifier(ALBUMS_QUALIFIER) EntityManagerFactory factory) {
         return new JpaTransactionManager(factory);
     }
 }

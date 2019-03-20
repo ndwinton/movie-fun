@@ -23,9 +23,9 @@ public class HomeController {
     private final MovieFixtures movieFixtures;
     private final AlbumFixtures albumFixtures;
 
-    @Autowired @Qualifier("movies")
+    @Autowired @Qualifier(Application.MOVIES_QUALIFIER)
     private PlatformTransactionManager moviesManager;
-    @Autowired @Qualifier("albums")
+    @Autowired @Qualifier(Application.ALBUMS_QUALIFIER)
     private PlatformTransactionManager albumsManager;
 
     public HomeController(MoviesBean moviesBean, AlbumsBean albumsBean, MovieFixtures movieFixtures, AlbumFixtures albumFixtures) {
